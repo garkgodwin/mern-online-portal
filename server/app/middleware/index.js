@@ -1,7 +1,13 @@
 const authJwt = require("./authJwt");
-const accountMiddlewares = require('./accountMiddlewares');
+const emptiness = require("./emptiness");
+const accountMiddlewares = require("./accountMiddlewares");
+const personMiddlewares = require("./personMiddlewares");
 
 module.exports = {
+  //?middlewares common
   authJwt,
-  accountMiddlewares
+  emptiness,
+  //?middlewares for controllers data
+  accountMiddlewares,
+  personMiddlewares,
 };

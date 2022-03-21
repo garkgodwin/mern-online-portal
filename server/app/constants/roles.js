@@ -1,0 +1,9 @@
+const roles = {
+  ADMINISTRATOR: "ADMINISTRATOR",
+  REGISTRAR: "REGISTRAR",
+  ACCOUNTANT: "ACCOUNTANT",
+  INSTRUCTOR: "INSTRUCTOR",
+  STUDENT: "STUDENT",
+};
+
+module.exports = roles;

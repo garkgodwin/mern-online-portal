@@ -13,5 +13,6 @@ db.mongoose = mongoose;
 db.uri = URI;
 //?Collections
 db.accounts = require('./account.model')(mongoose);
+db.persons = require("./person.model")(mongoose);
 
 module.exports = db;

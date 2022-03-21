@@ -2,129 +2,91 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.SECRET_KEY;
 const db = require("../models");
 const Account = db.accounts;
+//?Constant roles
+const roles = require('../constants/roles');
 
 verifyToken = (req, res, next) => {
   const authorization = req.headers.authorization;
   const token = authorization.substring(7);
   if (!token) {
     return res.status(403).json({
-      message: "Server did not recieve any token."
-    })
+      message: "Server did not recieve any token.",
+    });
   }
 
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({
-        message: "This token is not authorized."
-      })
+        message: "This token is not authorized.",
+      });
     }
     req.accountId = decoded.id;
+    console.log("Token is verified.");
     next();
   });
 };
-isAdmin = (req, res, next) => {
-  let result = {
-    success: false,
-    invalid: false,
-    failure: false,
-    error: false,
-    message: "",
-  }
-  Account.findByPk(req.accountId).then(account => {
-    if(account.role === "ADMIN"){
-      next();
-    }
 
-    let result = {
-      ...result,
-      invalid: true,
-      message: "Requires admin role."
+isAdmin = (req, res, next) => {
+  Account.findById(req.accountId).then((account) => {
+    if (account.role === roles.ADMINISTRATOR) {
+      console.log("User is admin.");
+      next();
+    } else {
+      res.status(403).json({
+        message: "Requires admin role.",
+      });
     }
-    res.status(403).json(result)
   });
 };
+
 isRegistrar = (req, res, next) => {
-  let result = {
-    success: false,
-    invalid: false,
-    failure: false,
-    error: false,
-    message: "",
-  }
-  Account.findByPk(req.accountId).then(account => {
-    if(account.role === "REGISTRAR"){
+  Account.findById(req.accountId).then((account) => {
+    if (account.role === roles.REGISTRAR) {
+      console.log("User is registrar")
       next();
     }
-    
-    let result = {
-      ...result,
-      invalid: true,
-      message: "Requires registrar role."
+    else{
+      res.status(403).json({
+        message: "Requires registrar role.",
+      });
     }
-    res.status(403).json(result)
   });
 };
 isAccountant = (req, res, next) => {
-  let result = {
-    success: false,
-    invalid: false,
-    failure: false,
-    error: false,
-    message: "",
-  }
-  Account.findByPk(req.accountId).then(account => {
-    if(account.role === "ACCOUNTANT"){
+  Account.findById(req.accountId).then((account) => {
+    if (account.role === roles.ACCOUNTANT) {
+      console.log("User is accountant")
       next();
     }
-    
-    let result = {
-      ...result,
-      invalid: true,
-      message: "Requires accountant role."
+    else{
+      res.status(403).json({
+        message: "Requires accountant role.",
+      });
     }
-    res.status(403).json(result)
   });
 };
 isInstructor = (req, res, next) => {
-  let result = {
-    success: false,
-    invalid: false,
-    failure: false,
-    error: false,
-    message: "",
-  }
-  Account.findByPk(req.accountId).then(account => {
-    if(account.role === "INSTRUCTOR"){
+  Account.findById(req.accountId).then((account) => {
+    if (account.role === roles.INSTRUCTOR) {
+      console.log("User is instructor")
       next();
+    }else{
+      res.status(403).json({
+        message: "Requires instructor role.",
+      });
     }
-    
-    let result = {
-      ...result,
-      invalid: true,
-      message: "Requires instructor role."
-    }
-    res.status(403).json(result)
   });
 };
 isStudent = (req, res, next) => {
-  let result = {
-    success: false,
-    invalid: false,
-    failure: false,
-    error: false,
-    message: "",
-  }
-  Account.findByPk(req.accountId).then(account => {
-    if(account.role === "STUDENT"){
+  Account.findById(req.accountId).then((account) => {
+    if (account.role === roles.STUDENT) {
+      console.log("User is student")
       next();
-    }
-    
-    let result = {
-      ...result,
-      invalid: true,
-      message: "Requires student role."
-    }
-    res.status(403).json(result)
+    }else{
+      res.status(403).json({
+        message: "Requires student role.",
+      });
+    }    
   });
 };
 

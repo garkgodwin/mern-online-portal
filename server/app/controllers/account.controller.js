@@ -49,11 +49,12 @@ exports.login = async(req, res) => {
 }
 
 exports.createAccount = async(req, res) => {
-  if(!req.body){
-    return res.status(400).json({
-      message: "Cannot create account with empty body."
-    })
-  }
+  //create information of person first
+
+  //use this status code
+  res.status(201).json({
+    message: "Passed the middlewares",
+  });
 }
 
 exports.verifyOnMount = async(req, res) => {
