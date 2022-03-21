@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AppBar, Container } from "@mui/material";
 
+import { authStates } from "../../store/features/authSlice";
+
 import GuestMenu from "./GuestMenu";
 import AuthedMenu from "./AuthedMenu";
 
 import getMenu from "../../constants/menu";
 
 const Navbar = () => {
-  const role = useSelector((state) => state.auth.role);
-  const username = useSelector((state) => state.auth.username);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { role, username, isLoggedIn } = useSelector(authStates);
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
